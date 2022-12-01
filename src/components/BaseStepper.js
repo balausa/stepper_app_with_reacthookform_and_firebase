@@ -52,6 +52,7 @@ const BaseStepper = () => {
       choice: "",
       gender: "",
     },
+    mode:'all'
   });
 
   const getStepContent = (step) => {
@@ -105,7 +106,6 @@ const BaseStepper = () => {
             {steps.map((label) => {
               const stepProps = {};
               const labelProps = {};
-
               return (
                 <Step key={label} {...stepProps}>
                   <StepLabel {...labelProps}>
@@ -115,7 +115,7 @@ const BaseStepper = () => {
             })}
           </Stepper>
           <Divider sx={{ mb: 3 }} />
-          <Typography variant="body1" sx={{ mt: 2, mg: 1 }}>Step {activeStep + 1}/{steps.length}</Typography>
+          <Typography variant="body1" sx={{ mt: 2, mg: 1 }}>{activeStep.length === steps.length ? ('Step' + activeStep/steps.length) : ''}</Typography>
         </Box>
         <Box sx={{ width: '100%', height: '80%' }}>
           {activeStep === steps.length ? (

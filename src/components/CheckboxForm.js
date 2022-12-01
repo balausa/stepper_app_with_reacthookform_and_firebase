@@ -10,7 +10,6 @@ import ManIcon from '@mui/icons-material/Man';
 import WomanIcon from '@mui/icons-material/Woman';
 import { IconButton, Paper } from "@mui/material";
 import {
-  useForm,
   Controller,
   useFormContext,
 } from "react-hook-form";
@@ -20,7 +19,7 @@ const CheckboxForm = () => {
   const [checked, setChecked] = useState(true);
   const { control } = useFormContext();
 
-  const handleChange = event => {
+  const handleChange = () => {
     setChecked(false);
   };
 

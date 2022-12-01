@@ -6,24 +6,19 @@ import { Grid } from "@mui/material";
 import UserDataService from '../services/user.services';
 import { useSnackbar } from 'notistack';
 import {
-  useForm,
   Controller,
   useFormContext,
 } from "react-hook-form";
 
 const SignForm = ({ onValidation }) => {
-  const { control } = useFormContext();
+
   const { enqueueSnackbar } = useSnackbar();
 
-  const {
-    register,
+  const { control, 
     formState: {
-      errors
-    }
-  } = useForm({
-    mode: "all"
-  }
-  );
+    errors
+    } 
+} = useFormContext();  
 
   const isValidEmail = email =>
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -62,35 +57,46 @@ const SignForm = ({ onValidation }) => {
           <Controller
             control={control}
             name="firstname"
-            render={() => (
+            rules={{
+              required: "Обязательное поле!",
+              minLength: {
+                value: 3,
+                message: 'Минимум 3 символа'
+              },
+              maxLength: {
+                value: 15,
+                message: 'Запись должна содержать максимум 15 символов'
+              }
+            }}
+            render={({ field }) => (
               <TextField
                 id="first-name"
                 label="First Name"
                 variant="outlined"
                 placeholder="Enter Your First Name"
                 margin="normal"
-                error={!!errors['firstname']}
-                helperText={errors['firstname'] ? errors['firstname'].message : ''}
+                error={!!errors["firstname"]}
+                helperText={errors.firstname ? errors.firstname.message : ''}
                 sx={{ mt: 2, width: '48%' }}
-                {...register('firstname',
-                  {
-                    required: "Обязательное поле!",
-                    minLength: {
-                      value: 3,
-                      message: 'Минимум 3 символа'
-                    },
-                    maxLength: {
-                      value: 15,
-                      message: 'Запись должна содержать максимум 15 символов'
-                    }
-                  })}
+                {...field}
               />
             )}
           />
           <Controller
             control={control}
             name="lastname"
-            render={() => (
+            rules={{
+              required: "Обязательное поле!",
+              minLength: {
+                value: 3,
+                message: 'Минимум 3 символа'
+              },
+              maxLength: {
+                value: 15,
+                message: 'Запись должна содержать максимум 15 символов'
+              }
+            }}
+            render={({ field }) => (
               <TextField
                 id="last-name"
                 label="Last Name"
@@ -100,18 +106,7 @@ const SignForm = ({ onValidation }) => {
                 error={!!errors['lastname']}
                 helperText={errors['lastname'] ? errors['lastname'].message : ''}
                 sx={{ mt: 2, width: '48%' }}
-                {...register('lastname',
-                  {
-                    required: "Обязательное поле!",
-                    minLength: {
-                      value: 3,
-                      message: 'Минимум 3 символа'
-                    },
-                    maxLength: {
-                      value: 15,
-                      message: 'Запись должна содержать максимум 15 символов'
-                    }
-                  })}
+                {...field}
               />
             )}
           />
@@ -133,7 +128,11 @@ const SignForm = ({ onValidation }) => {
           <Controller
             control={control}
             name="email"
-            render={() => (
+            rules={
+              {required: "Обязательное поле!",
+              validate: handleEmailValidation}
+            }        
+            render={({ field }) => (
               <TextField
                 id="email"
                 label="Email"
@@ -142,11 +141,8 @@ const SignForm = ({ onValidation }) => {
                 margin="normal"
                 error={!!errors['email']}
                 helperText={errors['email'] ? errors["email"].message : ''}
-                sx={{ mt: 2, width: '48%' }}
-                {...register('email',
-                  {
-                    required: "Обязательное поле!", validate: handleEmailValidation
-                  })}
+                sx={{ mt: 2, width: '48%' }} 
+                {...field}                          
               />
             )}
           />
